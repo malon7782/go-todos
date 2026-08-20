@@ -57,9 +57,11 @@ func Drop(args []string) int {
 	m, err := strconv.Atoi(args[0])
 	if err != nil {
 		fmt.Println("error: invalid index.\nindex must be a number.")
+		return 1
 	}
 	if m <= 0 || m >= len(list)+1 {
 		fmt.Println("error: invalid index.")
+		return 1
 	}
 	list = append(list[:m-1], list[m:]...)
 
