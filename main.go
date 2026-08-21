@@ -10,6 +10,7 @@ var commands = []cmd_struct{
 	{"drop", Drop},
 	{"clear", Clear},
 }
+
 var list = [](*item){}
 
 func main() {
@@ -17,6 +18,9 @@ func main() {
 	if len(userArgs) == 0 {
 		PrintHelpMsg()
 		return
+	}
+	if ok, _ := PathExists("data.json"); !ok {
+		ClearFile()
 	}
 	for _, command := range commands {
 		if command.name == userArgs[0] {

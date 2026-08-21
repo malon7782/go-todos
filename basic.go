@@ -1,36 +1,30 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
-	"strings"
 )
 
 func FetchFromFile() {
 	list = list[:0]
-	f, err := os.ReadFile("data.txt")
+	data, err := os.ReadFile("data.json")
 	if err != nil {
 		panic(err)
 	}
-	for _, m := range strings.Split(string(f), "\n") {
-		if m == "" {
-			continue
-		}
-		list = append(list, &item{content: m})
-	}
+	_ = json.Unmarshal(data, &list)
 }
 
 func WriteToFile() {
-	f := ""
-	for _, m := range list {
-		f += m.content
-		f += "\n"
+	data, err := json.MarshalIndent(list, "", "    ")
+	if err != nil {
+		panic(err)
 	}
-	_ = os.WriteFile("data.txt", []byte(f), 0644)
+	_ = os.WriteFile("data.json", data, 0644)
 }
 
 func ClearFile() {
-	file, err := os.Create("data.txt")
+	file, err := os.Create("data.json")
 	if err != nil {
 		panic(err)
 	}

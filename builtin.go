@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"strconv"
+	"time"
 )
 
 type cmd_struct struct {
@@ -11,7 +12,8 @@ type cmd_struct struct {
 }
 
 type item struct {
-	content string
+	Content   string `json:"content"`
+	Timestamp string `json:"timestamp"`
 }
 
 func Add(args []string) int {
@@ -20,7 +22,7 @@ func Add(args []string) int {
 		return 1
 	}
 	FetchFromFile()
-	list = append(list, &item{content: args[0]})
+	list = append(list, &item{Content: args[0], Timestamp: time.Now().Format("2006-01-02 15:04:05")})
 	WriteToFile()
 	return 0
 }
@@ -32,7 +34,7 @@ func Show(args []string) int {
 	}
 	FetchFromFile()
 	for i, m := range list {
-		fmt.Println(i+1, m.content)
+		fmt.Println(i+1, "|", m.Timestamp, "|", m.Content)
 	}
 	return 0
 }
