@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"strconv"
 	"time"
 )
 
@@ -56,16 +55,27 @@ func Drop(args []string) int {
 
 	FetchFromFile()
 
-	m, err := strconv.Atoi(args[0])
-	if err != nil {
-		fmt.Println("error: invalid index.\nindex must be a number.")
-		return 1
-	}
-	if m <= 0 || m >= len(list)+1 {
-		fmt.Println("error: invalid index.")
-		return 1
-	}
+	m := HandleStringIndex(args[0])
+
 	list = append(list[:m-1], list[m:]...)
+
+	WriteToFile()
+
+	return 0
+}
+
+func Prioritize(args []string) int {
+	if len(args) != 1 {
+		fmt.Println("Usage: todos pr <item index>.")
+		return 1
+	}
+
+	FetchFromFile()
+
+	m := HandleStringIndex(args[0])
+
+	tmp := list[m-1]
+	list = append([]*item{tmp}, append(list[:m-1], list[m:]...)...)
 
 	WriteToFile()
 

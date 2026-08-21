@@ -9,6 +9,7 @@ var commands = []cmd_struct{
 	{"show", Show},
 	{"drop", Drop},
 	{"clear", Clear},
+	{"pr", Prioritize},
 }
 
 var list = [](*item){}
